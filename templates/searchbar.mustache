@@ -1,0 +1,11 @@
+<div class="input-group">
+	<input id="search" class="form-control input-block-level" type="text" aria-labelledby="Search for..." placeholder="Search for..."/>
+</div>
+
+</hr>
+
+<ul class="guide-list list-group">
+{{#results}}
+  {{> block_confluence_guide_finder/result }}
+{{/results}}
+</ul>

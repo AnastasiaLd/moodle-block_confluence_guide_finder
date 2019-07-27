@@ -1,0 +1,8 @@
+{{#results}}
+	<li class="list-group-item">
+		<a href="{{ _links.base }}{{#_links}}{{webui}}{{/_links}}" target="_blank">{{title}}</a>
+	</li>
+{{/results}}
+{{^results}}
+	<p>{{#str}} notfoundmessage, block_confluence_guide_finder {{/ str }}</p>
+{{/results}}

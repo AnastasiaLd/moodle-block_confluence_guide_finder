@@ -21,9 +21,8 @@ class block_confluence_guide_finder_external extends external_api {
 
     //build the endpoint
     $url = get_config( 'block_confluence_guide_finder', 'confluencedomain' ) . '/rest/api/content/search?cql=';
-    $spacekey = get_config( 'block_confluence_guide_finder', 'confluencespacekey' );
     /* Find content that contains the user input (either an exact match or a "fuzzy" match) */
-    $cqlquery = "(space in ( \"${spacekey}\" )) AND ( type = page ) AND ( text~ \"${keyword}\" )";
+    $cqlquery = "type = page AND text ~ \"${keyword}\" ";
     $endpoint = $url .rawurlencode( $cqlquery );
 
 

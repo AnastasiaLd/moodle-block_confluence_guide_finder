@@ -13,7 +13,5 @@ $string['confluencedomain'] = 'Server Base URL';
 $string['confluencedomain_desc'] = 'Example: http://myconfluencesite.net/wiki ';
 $string['confluenceguidefinder'] = 'User guides finder';
 $string['connectionerror'] = 'Could not connect to Confluence. Contact the site administrator';
-$string['confluencespacekey'] = 'Space Key';
-$string['confluencespacekey_desc'] = 'If more than one, separate each space key with a comma';
 $string['notfoundmessage'] = 'Sorry, no results were found';
 $string['pluginname'] = 'Guides finder';

@@ -20,7 +20,7 @@ class block_confluence_guide_finder_external extends external_api {
     array( 'keyword' => $keyword ) );
 
     //build the endpoint
-    $url = get_config( 'block_confluence_guide_finder', 'confluencedomain' ) . '/rest/api/content/search?cql=';
+    $url = get_config( 'block_confluence_guide_finder', 'confluencedomain' ) . 'rest/api/content/search?cql=';
     /* Find content that contains the user input (either an exact match or a "fuzzy" match) */
     $cqlquery = "type = page AND text ~ \"${keyword}\" ";
     $endpoint = $url .rawurlencode( $cqlquery );
@@ -32,17 +32,21 @@ class block_confluence_guide_finder_external extends external_api {
     curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'Accept' => 'application/json' ) );
 
     $response = curl_exec( $ch );
+    $http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+    
+    /* Depending on the HTTP response, return matching results or display an error message for failed API call */
 
-    if ( $response == true ) {
+    if ( $response == 200 ) {
       /* JSON to array */
-      $json = json_decode( $response , true );
+      $results = json_decode( $response , true );
 
       return $json;
     }
 
     else {
-      echo  'Failed to load resource: '. curl_error( $ch ) ;
-      print_error('connectionerror', 'block_confluence_guide_finder');
+      
+      $error = json_decode ($response, true);    
+
     }
 
     /* Close connection to Confluence API */
@@ -55,29 +59,34 @@ class block_confluence_guide_finder_external extends external_api {
     /* Define response array structure */
     return new external_single_structure(
         array(
+            /* HTTP status code and error message */
+            'statusCode' => new external_value(PARAM_INT, 'http status code', VALUE_OPTIONAL),
+            'message' => new external_value(PARAM_TEXT, 'error message', VALUE_OPTIONAL),
+          
+            /* Matching results */
             'results' => new external_multiple_structure(
                 new external_single_structure(
                     array(
 
-                        'title' => new external_value(PARAM_TEXT, 'page title', VALUE_OPTIONAL),
+                        'title' => new external_value(PARAM_TEXT, 'page title'),
 
                         '_links' => new external_single_structure(
 
                           array(
-                            'webui' => new external_value(PARAM_TEXT, 'webui', VALUE_OPTIONAL),
-                        )
+                            'webui' => new external_value(PARAM_TEXT, 'page url'),
+                          )
 
                         ),
 
                     )
                 )
-            ),
+            , 'results', VALUE_OPTIONAL),
 
             '_links' => new external_single_structure(
               array(
                 'base' => new external_value(PARAM_TEXT, 'base', VALUE_OPTIONAL),
               )
-            )
+            , 'link', VALUE_OPTIONAL)
         )
     );
 

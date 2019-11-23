@@ -1,8 +1,7 @@
 {{#error}}
 <div class="alert alert-danger" role="alert">
-	<p><strong>Error: </strong>please contact the site administrator.</p>
+	<p><strong>Error {{ statusCode }}: </strong>please contact the site administrator.</p>
 	<br>
-	{{ statusCode }}
 	{{ message }}
 </div>
 {{/error}}

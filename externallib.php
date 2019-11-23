@@ -34,18 +34,26 @@ class block_confluence_guide_finder_external extends external_api {
     $response = curl_exec( $ch );
     $http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
     
-    /* Depending on the HTTP response, return matching results or display an error message for failed API call */
+    /* Depending on the HTTP response, return matching results or display error for failed API call */
+    
+    /* JSON to array */
+    $results = json_decode( $response , true );
 
-    if ( $response == 200 ) {
-      /* JSON to array */
-      $results = json_decode( $response , true );
-
+    if ( $http_code == 200 ) {
+      
       return $results;
     }
 
     else {
       
-      $error = json_decode ($response, true);  
+      $error_message = $results['message']; 
+      
+      $error = array(
+        'error' => array(
+          'statusCode'=> $http_code,
+          'message'=> $error_message,
+        )
+      );
       
       return $error;
 
@@ -62,8 +70,12 @@ class block_confluence_guide_finder_external extends external_api {
     return new external_single_structure(
         array(
             /* HTTP status code and error message */
-            'statusCode' => new external_value(PARAM_INT, 'http status code', VALUE_OPTIONAL),
-            'message' => new external_value(PARAM_TEXT, 'error message', VALUE_OPTIONAL),
+            'error' => new external_single_structure(
+              array(
+                'statusCode' => new external_value(PARAM_INT, 'http status code'),
+                'message' => new external_value(PARAM_TEXT, 'error message'),
+              )
+            , 'error', VALUE_OPTIONAL),
           
             /* Matching results */
             'results' => new external_multiple_structure(

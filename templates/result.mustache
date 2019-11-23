@@ -1,3 +1,12 @@
+{{#error}}
+<div class="alert alert-danger" role="alert">
+	<p><strong>Error: </strong>please contact the site administrator.</p>
+	<br>
+	{{ statusCode }}
+	{{ message }}
+</div>
+{{/error}}
+{{^error}}
 {{#results}}
 	<li class="list-group-item">
 		<a href="{{ _links.base }}{{#_links}}{{webui}}{{/_links}}" target="_blank">{{title}}</a>
@@ -8,8 +17,5 @@
 			<p>{{#str}} notfoundmessage, block_confluence_guide_finder {{/ str }}</p>
 	</div>
 {{/results}}
-<div class="box errorbox alert alert-danger">
-{{ statusCode }}
-{{ message }}
-</div>
+{{/error}}
 </hr>

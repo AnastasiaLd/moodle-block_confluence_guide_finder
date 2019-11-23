@@ -40,12 +40,14 @@ class block_confluence_guide_finder_external extends external_api {
       /* JSON to array */
       $results = json_decode( $response , true );
 
-      return $json;
+      return $results;
     }
 
     else {
       
-      $error = json_decode ($response, true);    
+      $error = json_decode ($response, true);  
+      
+      return $error;
 
     }
 

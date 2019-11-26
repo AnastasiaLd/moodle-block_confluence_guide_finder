@@ -23,7 +23,7 @@ class block_confluence_guide_finder extends block_base {
       /* Only course editors can view this block */
       $context = context_course::instance( $COURSE->id );
 
-      if ( !has_capability( 'moodle/course:manageactivities', $context ) ) {
+      if ( !has_capability( 'block/confluence_guide_finder:view', $context ) ) {
           return '';
       }
 

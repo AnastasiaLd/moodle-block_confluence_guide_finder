@@ -33,34 +33,54 @@ class block_confluence_guide_finder_external extends external_api {
 
     $response = curl_exec( $ch );
     $http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+    $results = json_decode( $response , true );
     
     /* Depending on the HTTP response, return matching results or display error for failed API call */
     
-    /* JSON to array */
-    $results = json_decode( $response , true );
+    if ( $response === false ) {
+    
+      $error = array(
 
-    if ( $http_code == 200 ) {
-      
-      return $results;
+        'error' => array(
+
+          'statusCode'=> curl_errno( $ch ),
+          'message'=> curl_error( $ch ),
+        )
+
+      );
+
+      return $error;
+    
     }
-
+    
     else {
       
-      $error_message = $results['message']; 
-      
-      $error = array(
-        'error' => array(
-          'statusCode'=> $http_code,
-          'message'=> $error_message,
-        )
-      );
-      
-      return $error;
+      if ( $http_code !== 200 ) {
+        
+        $error_message = $results['message'];
 
+        $error = array(
+
+          'error' => array(
+
+            'statusCode'=> $http_code,
+            'message'=> $error_message,
+
+          )
+        );
+
+        return $error;
+      
+      }
+      
+      else {
+        
+        return $results;
+      
+      }
+    
     }
 
-    /* Close connection to Confluence API */
-    curl_close( $ch );
   }
 
   /* Return pages suggestions */

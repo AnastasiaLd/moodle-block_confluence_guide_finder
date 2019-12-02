@@ -39,7 +39,7 @@ class block_confluence_guide_finder_external extends external_api {
     
     if ( $response === false ) {
     
-      $error = array(
+      $response = array(
 
         'error' => array(
 
@@ -48,8 +48,6 @@ class block_confluence_guide_finder_external extends external_api {
         )
 
       );
-
-      return $error;
     
     }
     
@@ -59,7 +57,7 @@ class block_confluence_guide_finder_external extends external_api {
         
         $error_message = $results['message'];
 
-        $error = array(
+        $response = array(
 
           'error' => array(
 
@@ -68,18 +66,22 @@ class block_confluence_guide_finder_external extends external_api {
 
           )
         );
-
-        return $error;
       
       }
       
       else {
         
-        return $results;
+        $response;
       
       }
     
     }
+    
+    /* Close connection */
+    
+    curl_close( $ch );
+    
+    return $response;
 
   }
 

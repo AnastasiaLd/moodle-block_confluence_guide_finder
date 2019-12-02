@@ -71,7 +71,7 @@ class block_confluence_guide_finder_external extends external_api {
       
       else {
         
-        $response;
+        $response = $results;
       
       }
     

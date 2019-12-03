@@ -1,7 +1,7 @@
 <?php
 
 require_once( $CFG->libdir . '/externallib.php' );
-require_once( '../../config.php' );
+require_once(dirname(__FILE__) . '/../../config.php');
 
 class block_confluence_guide_finder_external extends external_api {
 

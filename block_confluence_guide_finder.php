@@ -13,7 +13,7 @@ class block_confluence_guide_finder extends block_base {
   public function get_content() {
     global $OUTPUT;
     global $COURSE;
-    require_once( '../config.php' );
+    require_once(dirname(__FILE__) . '/../../config.php');
 
 
       if ( $this->content !== null ) {
